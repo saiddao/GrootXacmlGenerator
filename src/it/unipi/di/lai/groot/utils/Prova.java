@@ -1,4 +1,4 @@
-package it.unipi.di.lai.utils;
+package it.unipi.di.lai.groot.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +13,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import it.unipi.di.lai.utils.DomUtils;
 
 public class Prova {
 	private static Document doc;

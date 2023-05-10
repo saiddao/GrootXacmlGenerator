@@ -1,4 +1,4 @@
-package it.unipi.di.lai.utils;
+package it.unipi.di.lai.groot.utils;
 
 public class Lai16XacmlConstants {
 

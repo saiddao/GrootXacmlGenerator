@@ -1,4 +1,4 @@
-package it.unipi.di.lai.lai16XacmlRequestGeneratorWS;
+package it.unipi.di.lai.groot.lai16XacmlRequestGeneratorWS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,10 +43,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import it.unipi.di.lai.database.ConnectionPool;
+import it.unipi.di.lai.groot.database.ConnectionPool;
+import it.unipi.di.lai.groot.utils.XacmlWsConstants;
 import it.unipi.di.lai.utils.DomUtils;
 import it.unipi.di.lai.utils.StreamUtils;
-import it.unipi.di.lai.utils.XacmlWsConstants;
 
 
 

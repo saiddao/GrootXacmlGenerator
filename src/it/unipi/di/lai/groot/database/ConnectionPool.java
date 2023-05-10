@@ -1,4 +1,4 @@
-package it.unipi.di.lai.database;
+package it.unipi.di.lai.groot.database;
 
 
 
@@ -9,7 +9,7 @@ import javax.naming.NamingException;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
-import it.unipi.di.lai.utils.XacmlWsConstants;
+import it.unipi.di.lai.groot.utils.XacmlWsConstants;
 
 
 

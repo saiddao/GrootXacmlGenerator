@@ -1,4 +1,4 @@
-package it.unipi.di.lai.prova;
+package it.unipi.di.lai.groot.prova;
 
 import java.io.File;
 import java.io.FileNotFoundException;

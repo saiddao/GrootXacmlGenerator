@@ -1,4 +1,4 @@
-package it.unipi.di.lai.lai16XacmlRequestGeneratorWS;
+package it.unipi.di.lai.groot.lai16XacmlRequestGeneratorWS;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -52,10 +52,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import it.cnr.isti.sedc.xcreate.xacml3.lai16.starter.XCREATE4Lai16XacmlReqGenWS;
-import it.unipi.di.lai.database.ConnectionPool;
+import it.unipi.di.lai.groot.database.ConnectionPool;
+import it.unipi.di.lai.groot.utils.Lai16XacmlConstants;
+import it.unipi.di.lai.groot.utils.XacmlWsConstants;
 import it.unipi.di.lai.utils.DomUtils;
-import it.unipi.di.lai.utils.Lai16XacmlConstants;
-import it.unipi.di.lai.utils.XacmlWsConstants;
 
 @WebServiceProvider(
 		portName="XacmlRequestsGeneratorWSDLFileSOAP",
