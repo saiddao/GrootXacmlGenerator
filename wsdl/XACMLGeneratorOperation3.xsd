@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:tns="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	elementFormDefault="qualified">
+	<!-- import XACML Schema -->
+	<import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" schemaLocation="xacml-core-v3-schema-wd-17.xsd"/>
+	<!-- una xacml request rappresenta la volonta' di un soggetto di accedere a una detreminata risorsa.
+	Contiene attributi che definicono: il soggetto richiedente, la risorsa richiesta, l'azione che si vuole intraprendere 
+	e attributi riguardanti l'ambiente. Una richiesta xacml e' generata tramite tecnica combinatoriale 
+			a partire da una data politica. 
+	Gli attributi di una richiesta xacml sono:
+	- il nome della richiesta:: e' assegnato in fase di generazione dal generatore X-CREATE;
+	- identificativo request:: viene assegnato dopo il suo caricamente nel database:: corrisponde alla sua chiave primaria
+	- il contenuto della richiesta come definito dallo standard XACML 
+	- - attributi propri: identificativo della Xacml Policy dalla quale la corrente richiesta e' stata generata. -->
+	<complexType name="XacmlRequestType">
+		<sequence>
+			<element name="XacmlRequestName" type="string"/>
+			<element ref="tns:XacmlRequestID"/>
+			<element ref="xacml:Request" minOccurs="0"/>
+		</sequence>
+		<attribute name="XacmlPolicyID" type="integer"/>
+	</complexType>
+	<element name="XacmlRequest" type="tns:XacmlRequestType"/>
+	
+	<element name="XacmlPolicyID" type="integer"/>
+	<element name="XacmlRequestID" type="integer"/>
+	
+	<element name="XacmlRequestList">
+		<complexType>
+			<sequence>
+				<element ref="tns:XacmlRequest" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- Definizione dei messaggi di Input/Output delle operazioni per ciascun servizio -->
+	<!-- WS1 :: XacmlRequestGenerator -->
+		<!-- 	operazione 3 - getXacmlRequests
+				getXacmlRequestsRequest
+				getXacmlRequestsResponse -->
+	<element name="GetXacmlRequestsRequest">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetXacmlRequestsResponse">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlRequestList"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+</schema>
+

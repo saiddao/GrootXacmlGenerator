@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:tns="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	elementFormDefault="qualified">
+	<!-- import XACML Schema -->
+	<import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" schemaLocation="xacml-core-v3-schema-wd-17.xsd"/>
+	<!-- una xacml policy definisce le specifiche di controllo di accesso a determinati assets 
+	di proprieta' di un'organizzazione.
+	Gli attributi di una policy sono:
+	- nome della policy
+	- identificativo policy::viene assegnato dopo il suo caricamento nel database::corrisponde alla chiave primaria
+	- il contenuto della policy::ossia xacml policy come definita dallo standard XACML 3.0 (or 2.0) -->
+	<complexType name="XacmlPolicyType">
+		<sequence>
+			<element name="XacmlPolicyName" type="string"/>
+			<element ref="tns:XacmlPolicyID" minOccurs="0"/>
+			<choice minOccurs="1" maxOccurs="1">
+				<element ref="xacml:Policy"/>
+				<element ref="xacml:PolicySet"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<element name="XacmlPolicy" type="tns:XacmlPolicyType"/>
+	<!-- una xacml request rappresenta la volonta' di un soggetto di accedere a una detreminata risorsa.
+	Contiene attributi che definicono: il soggetto richiedente, la risorsa richiesta, l'azione che si vuole intraprendere 
+	e attributi riguardanti l'ambiente. Una richiesta xacml e' generata tramite tecnica combinatoriale 
+			a partire da una data politica. 
+	Gli attributi di una richiesta xacml sono:
+	- il nome della richiesta:: e' assegnato in fase di generazione dal generatore X-CREATE;
+	- identificativo request:: viene assegnato dopo il suo caricamente nel database:: corrisponde alla sua chiave primaria
+	- il contenuto della richiesta come definito dallo standard XACML 
+	- - attributi propri: identificativo della Xacml Policy dalla quale la corrente richiesta e' stata generata. -->
+	<complexType name="XacmlRequestType">
+		<sequence>
+			<element name="XacmlRequestName" type="string"/>
+			<element ref="tns:XacmlRequestID"/>
+			<element ref="xacml:Request" minOccurs="0"/>
+		</sequence>
+		<attribute name="xacmlPolicyID" type="integer"/>
+	</complexType>
+	<element name="XacmlRequest" type="tns:XacmlRequestType"/>
+	
+	<!-- una decision/response xacml rappresenta la decisione di autorizzazione da parte del PDP 
+	a fronte di una richiesta Xacml e in base alle policy presenti nel repository: 
+		- lo scenario di riferimento prevede una sola policy 
+	Gli attributi di una response Xacml sono:
+	- La decision secondo lo Standard XACML:: prevede Quattro valori:
+		- <xs:enumeration value="Permit"/>
+		- <xs:enumeration value="Deny"/>
+		- <xs:enumeration value="Indeterminate"/>
+		- <xs:enumeration value="NotApplicable"/> 
+	- identificativo response::viene assegnatao durante la fase di caricamento nel database::corrisponde alla chiave primaria;
+	- - attributi propri: 
+			- Identificativo XacmlPolicy, 
+			- Identificativo Xacml Request-->
+	<complexType name="XacmlResponseType">
+		<sequence>
+			<!-- <element name="XacmlResponseValue" type="string"/> -->
+			<element ref="xacml:Decision"/>
+			<element ref="tns:XacmlResponseID"/>
+			<!-- <element ref="xacml:Response"/>  -->
+		</sequence>
+		<attribute name="xacmlPolicyID" type="integer"/>
+		<attribute name="xacmlRequestID" type="integer"/>
+	</complexType>	
+	<element name="XacmlResponse" type="tns:XacmlResponseType"/>
+	
+	<element name="XacmlPolicyID" type="integer"/>
+	<element name="XacmlRequestID" type="integer"/>
+	<element name="XacmlResponseID" type="integer"/>
+	
+	<element name="XacmlPolicyIDAddP" type="integer"/>
+	<element name="XacmlPolicyIDParGetReq" type="integer"/>
+	<element name="XacmlPolicyIDParGenReq" type="integer"/>
+	
+	
+	<element name="XacmlRequestList">
+		<complexType>
+			<sequence>
+				<element ref="tns:XacmlRequest" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	
+	<element name="XacmlResponseList">
+		<complexType>
+			<sequence>
+				<element ref="tns:XacmlResponse" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- Definizione dei messaggi di Input/Output delle operazioni per ciascun servizio -->
+	<!-- WS1 :: XacmlRequestGenerator -->
+	<!-- 	operazione 1 - addXacmlPolicy
+				addXacmlPolicyRequest
+				AddXacmlPolicyResponse
+	-->
+	<element name="AddXacmlPolicyRequest">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicy"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="AddXacmlPolicyResponse">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- 	operazione 2 - getXacmlPolicies
+				getXacmlPoliciesRequest
+				getXacmlPoliciesResponse -->
+	<element name="GetXacmlPoliciesRequest" type="anySimpleType"></element>
+	<element name="getXacmlPoliciesResponse">
+		<complexType>
+			<sequence minOccurs="0" maxOccurs="unbounded">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+		<!-- 	operazione 3 - getXacmlRequests
+				getXacmlRequestsRequest
+				getXacmlRequestsResponse -->
+	<element name="getXacmlRequestsRequest">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getXacmlRequestsResponse">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlRequestList"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- WS2 :: XacmlPolicyDecisionPoint :: Integra Balana -->
+	<!-- 	operazione 1 - evaluateAllXacmlRequests
+				evaluateAllXacmlRequestsRequest
+				evaluateAllXacmlRequestsResponse
+	-->
+	<element name="evaluateAllXacmlRequestsRequest">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="evaluateAllXacmlRequestsResponse">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlResponseList"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
+

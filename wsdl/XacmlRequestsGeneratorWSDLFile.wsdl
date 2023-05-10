@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://di.unipi.it/lai/XacmlRequestsGeneratorWSDLFile/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="XacmlRequestsGeneratorWSDLFile" targetNamespace="http://di.unipi.it/lai/XacmlRequestsGeneratorWSDLFile/"
+	
+	xmlns:xcreate="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal">
+			<xsd:include schemaLocation="XACMLTestingFrameworkOperations.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="AddXacmlPolicyParRequest">
+		<wsdl:part element="xcreate:AddXacmlPolicyRequest" name="AddPolicyRequest" />
+	</wsdl:message>
+	<wsdl:message name="AddXacmlPolicyParResponse">
+		<wsdl:part element="xcreate:AddXacmlPolicyResponse" name="AddPolicyResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="GetXacmlPoliciesParRequest">
+		<wsdl:part element="xcreate:GetXacmlPoliciesRequest" name="GetPoliciesRequest" />
+	</wsdl:message>
+	<wsdl:message name="GetXacmlPoliciesParResponse">
+		<wsdl:part element="xcreate:GetXacmlPoliciesResponse" name="GetPoliciesResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="GetXacmlRequestsParRequest">
+		<wsdl:part element="xcreate:GetXacmlRequestsRequest" name="GetRequestsRequest" />
+	</wsdl:message>	
+	<wsdl:message name="GetXacmlRequestsParResponse">
+		<wsdl:part element="xcreate:GetXacmlRequestsResponse" name="GetRequestsResponse" />
+	</wsdl:message>
+	
+	
+	<wsdl:portType name="XacmlRequestsGeneratorWSDLFile">
+	
+		<wsdl:operation name="AddXacmlPolicyOp">
+			<wsdl:input message="tns:AddXacmlPolicyParRequest" />
+			<wsdl:output message="tns:AddXacmlPolicyParResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="GetXacmlPoliciesOp">
+			<wsdl:input message="tns:GetXacmlPoliciesParRequest" />
+			<wsdl:output message="tns:GetXacmlPoliciesParResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="GetXacmlRequestsOP">
+			<wsdl:input message="tns:GetXacmlRequestsParRequest" />
+			<wsdl:output message="tns:GetXacmlRequestsParResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	
+	
+	
+	
+	<wsdl:binding name="XacmlRequestsGenerator"
+		type="tns:XacmlRequestsGeneratorWSDLFile">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="AddXacmlPolicyOp">
+			<soap:operation
+				soapAction="http://di.unipi.it/lai/XacmlRequestsGeneratorWSDLFile/AddXacmlPolicyOp" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetXacmlPoliciesOp">
+			<soap:operation
+				soapAction="http://di.unipi.it/lai/XacmlRequestsGeneratorWSDLFile/GetXacmlPoliciesOp" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetXacmlRequestsOP">
+			<soap:operation
+				soapAction="http://di.unipi.it/lai/XacmlRequestsGeneratorWSDLFile/GetXacmlRequestsOP" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="XacmlRequestsGeneratorWSDLFile">
+		<wsdl:port binding="tns:XacmlRequestsGenerator"
+			name="XacmlRequestsGenerator">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

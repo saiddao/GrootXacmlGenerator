@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:tns="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	elementFormDefault="qualified">
+	<!-- import XACML Schema -->
+	<import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" schemaLocation="xacml-core-v3-schema-wd-17.xsd"/>
+	
+	<!-- una xacml policy definisce le specifiche di controllo di accesso a determinati assets 
+	di proprieta' di un'organizzazione.
+	Gli attributi di una policy sono:
+	- nome della policy
+	- identificativo policy::viene assegnato dopo il suo caricamento nel database::corrisponde alla chiave primaria
+	- il contenuto della policy::ossia xacml policy come definita dallo standard XACML 3.0 (or 2.0) -->
+	<complexType name="XacmlPolicyType">
+		<sequence>
+			<element name="XacmlPolicyName" type="string"/>
+			<element ref="tns:XacmlPolicyID" minOccurs="0"/>
+			<choice minOccurs="1" maxOccurs="1">
+				<element ref="xacml:Policy"/>
+				<element ref="xacml:PolicySet"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<element name="XacmlPolicy" type="tns:XacmlPolicyType"/>
+	<element name="XacmlPolicyID" type="integer"/>
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- Definizione dei messaggi di Input/Output delle operazioni per ciascun servizio -->
+	<!-- WS1 :: XacmlRequestGenerator -->
+	<!-- 	operazione 2 - getXacmlPolicies
+				getXacmlPoliciesRequest
+				getXacmlPoliciesResponse -->
+	<element name="GetXacmlPoliciesRequest" type="anySimpleType"></element>
+	<element name="GetXacmlPoliciesResponse">
+		<complexType>
+			<sequence minOccurs="0" maxOccurs="unbounded">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
+

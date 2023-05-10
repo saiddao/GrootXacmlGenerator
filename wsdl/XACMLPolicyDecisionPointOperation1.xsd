@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:tns="http://di.unipi.it/lai/XACMLGeneratorXMLSchemaFinal" 
+	xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	elementFormDefault="qualified">
+	<!-- import XACML Schema -->
+	<import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" schemaLocation="xacml-core-v3-schema-wd-17.xsd"/>
+	
+	<!-- una decision/response xacml rappresenta la decisione di autorizzazione da parte del PDP 
+	a fronte di una richiesta Xacml e in base alle policy presenti nel repository: 
+		- lo scenario di riferimento prevede una sola policy 
+	Gli attributi di una response Xacml sono:
+	- La decision secondo lo Standard XACML:: prevede Quattro valori:
+		- <xs:enumeration value="Permit"/>
+		- <xs:enumeration value="Deny"/>
+		- <xs:enumeration value="Indeterminate"/>
+		- <xs:enumeration value="NotApplicable"/> 
+	- identificativo response::viene assegnatao durante la fase di caricamento nel database::corrisponde alla chiave primaria;
+	- - attributi propri: 
+			- Identificativo XacmlPolicy, 
+			- Identificativo Xacml Request-->
+	<complexType name="XacmlResponseType">
+		<sequence>
+			<!-- <element name="XacmlResponseValue" type="string"/> -->
+			<element ref="xacml:Decision"/>
+			<element ref="tns:XacmlResponseID"/>
+			<!-- <element ref="xacml:Response"/>  -->
+		</sequence>
+		<attribute name="XacmlPolicyID" type="integer"/>
+		<attribute name="XacmlRequestID" type="integer"/>
+	</complexType>	
+	<element name="XacmlResponse" type="tns:XacmlResponseType"/>
+	
+	<element name="XacmlPolicyID" type="integer"/>
+	<element name="XacmlResponseID" type="integer"/>	
+	
+	<element name="XacmlResponseList">
+		<complexType>
+			<sequence>
+				<element ref="tns:XacmlResponse" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+	<!-- Definizione dei messaggi di Input/Output delle operazioni per ciascun servizio -->
+	<!-- WS2 :: XacmlPolicyDecisionPoint :: Integra Balana -->
+	<!-- 	operazione 1 - evaluateAllXacmlRequests
+				evaluateAllXacmlRequestsRequest
+				evaluateAllXacmlRequestsResponse
+	-->
+	<element name="EvaluateAllXacmlRequestsRequest">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlPolicyID"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="EvaluateAllXacmlRequestsResponse">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="1">
+				<element ref="tns:XacmlResponseList"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
+
